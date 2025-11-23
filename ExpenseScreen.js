@@ -75,21 +75,22 @@ export default function ExpenseScreen() {
   );
 
   useEffect(() => {
-    async function setup() {
-      await db.execAsync(`
-        CREATE TABLE IF NOT EXISTS expenses (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          amount REAL NOT NULL,
-          category TEXT NOT NULL,
-          note TEXT
-        );
-      `);
+  const initDb = async () => {
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS expenses (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        amount REAL NOT NULL,
+        category TEXT NOT NULL,
+        note TEXT,
+        date TEXT NOT NULL
+      );
+    `);
 
-      await loadExpenses();
-    }
+    await loadExpenses();
+  };
 
-    setup();
-  }, []);
+  initDb();
+}, [db]);
 
   return (
     <SafeAreaView style={styles.container}>
